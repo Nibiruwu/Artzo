@@ -716,7 +716,8 @@ footer {
     display: block;
     overflow: hidden;
     border-radius: 5px;
-    position: relative; /* WAJIB DITAMBAH biar teksnya gak keluar jalur */
+    position: relative;
+    /* WAJIB DITAMBAH biar teksnya gak keluar jalur */
 }
 
 .gallery-item-link.landscape {
@@ -740,11 +741,12 @@ footer {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease, opacity 0.4s ease; /* Bikin transisi lebih smooth */
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    /* Bikin transisi lebih smooth */
 }
 
 .gallery-item-link:hover .gallery-img {
-    transform: scale(1.02);  
+    transform: scale(1.02);
 }
 
 .gallery-overlay {
@@ -754,41 +756,50 @@ footer {
     width: 100%;
     height: 100%;
     /* GANTI BACKGROUND JADI GRADASI: Gelap di atas (80%), hilang di tengah (40%) */
-    background: linear-gradient(to bottom, rgba(11, 16, 16, 0.8) 0%, rgba(11, 16, 16, 0) 40%); 
+    background: linear-gradient(to bottom, rgba(11, 16, 16, 0.8) 0%, rgba(11, 16, 16, 0) 40%);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start; /* PERBAIKAN: pakai flex-start, bukan left */
+    align-items: flex-start;
+    /* PERBAIKAN: pakai flex-start, bukan left */
     text-align: left;
-    padding: 1.5rem;
-    opacity: 0; /* Awalnya ngumpet */
+    padding: clamp(0.8rem, 3vw, 1.5rem);
+    opacity: 0;
+    /* Awalnya ngumpet */
     transition: opacity 0.4s ease;
-    pointer-events: none; /* Biar gak ganggu kalau mau diklik */
+    pointer-events: none;
+    /* Biar gak ganggu kalau mau diklik */
 }
 
 .gallery-item-link:hover .gallery-overlay {
-    opacity: 1; /* Muncul pas di-hover */
+    opacity: 1;
+    /* Muncul pas di-hover */
 }
 
 .gallery-overlay h5 {
     font-family: var(--font-heading);
-    font-size: 1.8rem;
+    font-size: clamp(1rem, 4vw, 1.8rem);
     color: var(--text-primary);
     /* PERBAIKAN: Margin diset 0.2rem biar deketan sama deskripsi */
-    margin: 0 0 0.03rem 0; 
-    line-height: 1.2; /* Biar jarak dalam teks judul juga padat */
-    transform: translateY(-90px); /* Awalnya dari atas */
+    margin: 0 0 0.03rem 0;
+    line-height: 1.2;
+    /* Biar jarak dalam teks judul juga padat */
+    transform: translateY(-90px);
+    /* Awalnya dari atas */
     transition: transform 0.4s ease;
 }
 
 .gallery-overlay p {
     font-family: var(--font-body);
-    font-size: 0.8rem; /* PERBAIKAN: spasinya dihapus */
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    /* PERBAIKAN: spasinya dihapus */
     color: var(--text-primary);
-    margin: 0; /* Hilangkan margin bawaan browser biar nggak renggang */
+    margin: 0;
+    /* Hilangkan margin bawaan browser biar nggak renggang */
     transform: translateY(-90px);
     transition: transform 0.4s ease;
-    transition-delay: 0.05s; /* Telat dikit munculnya biar elegan */
+    transition-delay: 0.05s;
+    /* Telat dikit munculnya biar elegan */
 }
 
 .gallery-item-link:hover .gallery-overlay h5,
