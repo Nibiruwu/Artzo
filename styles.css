@@ -45,6 +45,24 @@ body {
     width: 100%;
 }
 
+/* Page Dimmer overlay that reacts to hovering artworks */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 90;
+    transition: background 0.4s ease;
+}
+
+body:has(.gallery-item-link:hover)::before {
+    background: rgba(0, 0, 0, 0.75); /* Dark dim layer */
+}
+
 html {
     overflow-x: hidden;
     width: 100%;
@@ -603,7 +621,7 @@ footer {
 /* Ensure content sits on top */
 .section-container {
     position: relative;
-    z-index: 1;
+    /* Removed z-index to solve stacking context so hovered items can break out globally */
 }
 
 /* Specific Section Backgrounds */
@@ -716,8 +734,18 @@ footer {
     display: block;
     overflow: hidden;
     border-radius: 5px;
-    position: relative;
-    /* WAJIB DITAMBAH biar teksnya gak keluar jalur */
+    position: relative; /* WAJIB DITAMBAH biar teksnya gak keluar jalur */
+    z-index: 91; /* Always above page dimmer so we can animate brightness directly */
+    transition: filter 0.4s ease, transform 0.4s ease; 
+}
+
+/* When the grid detects a hover, smoothly dim all the other unhovered artworks */
+.gallery-grid:has(.gallery-item-link:hover) .gallery-item-link:not(:hover) {
+    filter: brightness(0.35); /* Fade transition into dim */
+}
+
+.gallery-item-link:hover {
+    z-index: 92; /* Minor bump above others */
 }
 
 .gallery-item-link.landscape {
@@ -755,8 +783,10 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    /* GANTI BACKGROUND JADI GRADASI: Gelap di atas (80%), hilang di tengah (40%) */
-    background: linear-gradient(to bottom, rgba(11, 16, 16, 0.8) 0%, rgba(11, 16, 16, 0) 40%);
+    /* Gradient Atas untuk Judul (160deg) & Gradient Bawah Miring (-20deg) untuk Info */
+    background: 
+        linear-gradient(170deg, rgba(11, 16, 16, 0.98) 0%, rgba(11, 16, 16, 0) 30%),
+        linear-gradient(-10deg, rgba(11, 16, 16, 0.95) 0%, rgba(11, 16, 16, 0) 20%);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -778,10 +808,10 @@ footer {
 
 .gallery-overlay h5 {
     font-family: var(--font-heading);
-    font-size: clamp(1rem, 4vw, 1.8rem);
+    font-size: clamp(1rem, 2vw, 1.8rem);
     color: var(--text-primary);
     /* PERBAIKAN: Margin diset 0.2rem biar deketan sama deskripsi */
-    margin: 0 0 0.03rem 0;
+    margin: 0 0 0rem 0;
     line-height: 1.2;
     /* Biar jarak dalam teks judul juga padat */
     transform: translateY(-90px);
@@ -791,7 +821,7 @@ footer {
 
 .gallery-overlay p {
     font-family: var(--font-body);
-    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    font-size: clamp(0.3rem, 1vw, 0.8rem);
     /* PERBAIKAN: spasinya dihapus */
     color: var(--text-primary);
     margin: 0;
@@ -805,6 +835,15 @@ footer {
 .gallery-item-link:hover .gallery-overlay h5,
 .gallery-item-link:hover .gallery-overlay p {
     transform: translateY(0);
+}
+
+.gallery-overlay .gallery-info {
+    position: absolute;
+    bottom: clamp(0.8rem, 1vw, 1.5rem);
+    right: clamp(0.8rem, 1vw, 1.5rem);
+    transform: translateY(90px);
+    text-align: right;
+    max-width: 80%;
 }
 
 /* Lightbox Styles */
