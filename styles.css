@@ -752,15 +752,22 @@ footer {
     flex: 0 0 100%;
 }
 
-/* 2. Portrait (Ambil 1 porsi. Kalau ada 2, otomatis bagi rata 50:50) */
+/* 2. Portrait (Maksimal 2 dalam 1 baris) */
 .gallery-item-link.portrait {
-    flex: 1 1 200px;
+    /* Magic Number 36%: 
+       Kalau 2 portrait (36+36=72) -> Muat 1 baris! Otomatis melar jadi 50:50.
+       Kalau 3 portrait (36+36+36=108) -> Overload! Portrait ke-3 pasti ditendang ke bawah. */
+    flex: 1 1 calc(36% - 1.5rem);
+    min-width: 200px;
     aspect-ratio: 3 / 4;
 }
 
-/* 3. Landscape Khusus Gandengan (Ambil 2 porsi. Otomatis rasio 2/3 dan 1/3) */
+/* 3. Landscape Khusus Gandengan */
 .gallery-item-link.landscape-half {
-    flex: 2 1 400px;
+    /* Magic Number 64%:
+       Kalau gabung Portrait (64+36=100) -> Muat pas banget di 1 baris! (Rasio 2/3 dan 1/3) */
+    flex: 2 1 calc(64% - 1.5rem);
+    min-width: 300px;
     aspect-ratio: 16 / 9;
 }
 
